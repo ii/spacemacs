@@ -99,6 +99,7 @@ values."
                                       s
                                       go-dlv
                                       ob-go
+                                      ob-async
                                       scad-mode
                                       groovy-mode
                                       command-log-mode
