@@ -99,7 +99,6 @@ values."
                                       s
                                       go-dlv
                                       ob-go
-                                      ob-async
                                       scad-mode
                                       groovy-mode
                                       command-log-mode
@@ -110,6 +109,7 @@ values."
                                       fancy-narrow
                                       org-tree-slide
                                       slime
+                                      ob-async
                                       ;; ob-tmux
                                       ;; osc52e
                                      )
@@ -507,6 +507,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-archives
+   '(("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://stable.melpa.org/packages/")))
  '(avy-keys (quote (97 111 101 117 100 104 116 110 115)))
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "firefox")
