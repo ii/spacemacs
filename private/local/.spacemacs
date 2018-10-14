@@ -33,6 +33,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     csv
      lua
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -384,11 +385,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq org-babel-default-header-args:tmux
         '((:results . "silent")		;
           (:session . "default")	; The default tmux session to send code to
-          (:socket  . "/tmp/ii-tmate.socket")              ; The default tmux socket to communicate with
+          (:socket  . "/tmp/ii-right.socket")              ; The default tmux socket to communicate with
           ;; You can use "xterm" and "gnome-terminal".
           ;; On mac, you can use "iterm" as well.
           (:terminal . "roxterm")))
-
   ;; The tmux sessions are prefixed with the following string.
   ;; You can customize this if you like.
   (setq org-babel-tmux-session-prefix "ii-")
@@ -397,7 +397,23 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;; may set the path to the tmux binary as follows:
   (setq org-babel-tmux-location "/usr/local/bin/tmate")
   ;; https://github.com/rnkn/olivetti/issues/12#issuecomment-239657849
-  (defun split-window-right-ignore (&optional size)
+
+  ;; Going for ob-tmate fork
+  (load "~/.emacs.d/private/local/ob-tmate.el/ob-tmate.el")
+  (require 'ob-tmate)
+  (setq org-babel-default-header-args:tmate
+        '(
+          (:results . "silent")
+          (:socket  . "/tmp/ii-right.socket")
+          (:session . "default")
+          (:terminal . "roxterm")
+          ))
+  (setq org-babel-tmate-session-prefix "ii-")
+  (setq org-babel-tmate-location "/usr/local/bin/tmate")
+
+
+  (require 'ob-async)
+    (defun split-window-right-ignore (&optional size)
     (if (car size) size (list (/ (window-total-width) 2))))
 
   (advice-add 'split-window-right :filter-args
@@ -482,7 +498,23 @@ you should place your code here."
    '(ob-async slime company-anaconda go-dlv yapfify winum white-sand-theme web-mode web-beautify unfill toml-mode terraform-mode hcl-mode tagedit solarized-theme slim-mode scss-mode scad-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rebecca-theme rbenv rake racer pyvenv pytest pyenv-mode py-isort pug-mode powershell pip-requirements phpunit phpcbf php-extras php-auto-yasnippets ox-twbs ox-reveal ht org-projectile org-category-capture org-mime ob-go mwim minitest madhat2r-theme lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode js2-refactor multiple-cursors js2-mode js-doc jinja2-mode insert-shebang hy-mode helm-pydoc helm-css-scss haml-mode go-guru go-eldoc git-link fuzzy fish-mode exotica-theme evil-vimish-fold vimish-fold evil-unimpaired ghub let-alist emmet-mode dumb-jump drupal-mode php-mode dockerfile-mode docker json-mode tablist docker-tramp json-snatcher json-reformat autothemer cython-mode csv-mode company-web web-completion-data company-tern dash-functional tern company-shell company-go go-mode ompany-anaconda coffee-mode chruby cargo rust-mode bundler inf-ruby anaconda-mode pythonic f goto-chg undo-tree diminish uuidgen ox-gfm org-download link-hint eyebrowse evil-visual-mark-mode evil-ediff darkokai-theme column-enforce-mode org-tree-slide fancy-narrow demo-it easy-lentic lentic lentic-server feature-mode zonokai-theme zenburn-theme zen-and-art-theme yaml-mode ws-butler window-numbering volatile-highlights vi-tilde-fringe underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme stekene-theme spaceline powerline spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smooth-scrolling smeargle seti-theme reverse-theme restart-emacs rainbow-delimiters railscasts-theme purple-haze-theme professional-theme popwin planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pastels-on-dark-theme paradox hydra spinner page-break-lines orgit organic-green-theme org-repo-todo org-present org-pomodoro alert log4e gntp org-plus-contrib org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme neotree naquadah-theme mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc s markdown-mode majapahit-theme magit-gitflow macrostep lush-theme lorem-ipsum linum-relative light-soap-theme leuven-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-gitignore request helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme groovy-mode grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md gandalf-theme flx-ido flx flatui-theme flatland-theme firebelly-theme fill-column-indicator farmhouse-theme fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight espresso-theme elisp-slime-nav dracula-theme django-theme define-word darktooth-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme company-statistics company-quickhelp pos-tip company command-log-mode colorsarenice-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme busybee-theme buffer-move bubbleberry-theme bracketed-paste birds-of-paradise-plus-theme badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed dash apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup quelpa package-build use-package which-key bind-key bind-map evil spacemacs-theme))
  '(paradox-automatically-star t)
  '(safe-local-variable-values
-   '((eval org-babel-do-load-languages 'org-babel-load-languages
+   '((org-babel-tmate-session-prefix . "rt-")
+     (org-babel-tmate-session-prefix . "")
+     (org-babel-tmux-session-prefix . "")
+     (org-babel-tmux-session-prefix . "crt-")
+     (eval setenv "DNSIMPLE_TOKEN"
+           (shell-command-to-string ". secrets.env ; echo -n $DNSIMPLE_TOKEN"))
+     (org-babel-tmux-session-prefix . "hh-")
+     (org-confirm-babel-evaluate)
+     (eval require 'ob-go)
+     (eval require 'ob-js)
+     (eval require 'ob-emacs-lisp)
+     (eval require 'ob-lisp)
+     (eval require 'ob-shell)
+     (eval require 'ob-tmux)
+     (eval require 'ox-md)
+     (org-use-property-inheritance . t)
+     (eval org-babel-do-load-languages 'org-babel-load-languages
            '((shell . t)
              (ruby . t)
              (shell . t)
