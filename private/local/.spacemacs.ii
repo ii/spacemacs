@@ -535,21 +535,21 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; git clone https://github.com/ahendriksen/ob-tmux ~/.emacs.d/private/local/ob-tmux.el
   ;; git clone https://github.com/ii/ob-tmate ~/.emacs.d/private/local/ob-tmux.el
   (load "~/.emacs.d/private/local/ob-tmate.el/ob-tmate.el")
-  (load "~/.emacs.d/private/local/ob-tmux.el/ob-tmux.el")
+  ;; (load "~/.emacs.d/private/local/ob-tmux.el/ob-tmux.el")
   ;; git clone https://github.com/ii/ob-tmate ~/.emacs.d/private/local/ob-tmate.el
   ;; (load "~/.emacs.d/private/local/ob-tmate.el/ob-tmate.el")
-  (require 'ob-tmux)
-  (setq org-babel-default-header-args:tmux
+  (require 'ob-tmate)
+  (setq org-babel-default-header-args:tmate
         '((:results . "silent")		;
           (:session . "default")	; The default tmux session to send code to
-          (:socket  . "/tmp/ii-tmate.socket")              ; The default tmux socket to communicate with
+          (:socket  . "/tmp/ii-tmate.isocket")              ; The default tmux socket to communicate with
           ;; You can use "xterm" and "gnome-terminal".
           ;; On mac, you can use "iterm" as well.
-          (:terminal . "roxterm")))
+          (:terminal . "xterm")))
 
   ;; The tmux sessions are prefixed with the following string.
-  ;; You can customize this if you like.
-  (setq org-babel-tmux-session-prefix "ii-")
+  ;; You can customize this if you like, I prefer no prefix.
+  (setq org-babel-tmux-session-prefix "")
 
   ;; Finally, if your tmux is not in your $PATH for whatever reason, you
   ;; may set the path to the tmux binary as follows:
