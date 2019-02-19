@@ -1,0 +1,9 @@
+[submodule "private/local/dot-spacemacs"]
+	path = private/local/dot-spacemacs
+	url = https://gitlab.ii.coop/ii/tooling/dot-spacemacs
+[submodule "private/local/forge"]
+	path = private/local/forge
+	url = https://github.com/ii/forge
+[submodule "private/local/ob-tmate"]
+	path = private/local/ob-tmate.el
+	url = https://gitlab.ii.coop/ii/tooling/ob-tmate.git
