@@ -7,3 +7,6 @@
 [submodule "private/local/ob-tmate"]
 	path = private/local/ob-tmate.el
 	url = https://gitlab.ii.coop/ii/tooling/ob-tmate.git
+[submodule "private/local/ob-async"]
+	path = private/local/ob-async
+	url = https://github.com/astahlman/ob-async
