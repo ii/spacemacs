@@ -79,7 +79,7 @@ the `:upgrade' argument."
   :group 'quelpa
   :type 'hook)
 
-(defcustom quelpa-dir (expand-file-name "quelpa" user-emacs-directory)
+(defcustom quelpa-dir (expand-file-name "../quelpa" spacemacs-start-directory)
   "Where quelpa builds and stores packages."
   :group 'quelpa
   :type 'string)

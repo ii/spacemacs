@@ -120,7 +120,7 @@ subdirectory of ROOT is used."
   "Hook executed at the end of configuration loading.")
 
 (defconst configuration-layer--elpa-root-directory
-  (concat spacemacs-start-directory "elpa/")
+  (expand-file-name (concat spacemacs-start-directory "../elpa/"))
   "Spacemacs ELPA root directory.")
 
 (defconst configuration-layer--rollback-root-directory
@@ -450,7 +450,7 @@ cache folder.")
 (defun configuration-layer//configure-quelpa ()
   "Configure `quelpa' package."
   (setq quelpa-verbose init-file-debug
-        quelpa-dir (concat spacemacs-cache-directory "quelpa/")
+        quelpa-dir (expand-file-name (concat spacemacs-start-directory "../quelpa/"))
         quelpa-build-dir (expand-file-name "build" quelpa-dir)
         quelpa-persistent-cache-file (expand-file-name "cache" quelpa-dir)
         quelpa-update-melpa-p nil)
