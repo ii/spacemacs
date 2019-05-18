@@ -34,6 +34,11 @@
         (org-projectile :requires projectile)
         (ox-epub :toggle org-enable-epub-support)
         (ox-twbs :toggle org-enable-bootstrap-support)
+        ;; (Spacemacs) Warning: Ignoring :toggle for package ob-async because layer org does not own it.
+        ;; (Spacemacs) Warning: package ob-tmate not initialized in layer org, you may consider removing this package from the package list or use the :toggle keyword instead of a `when' form.
+        ;;  Not sure how to fix the above... Toggling doesn't seem to work
+        ;; (ob-async :location "/usr/local/share/emacs/site-lisp/ob-async" :toggle org-enable-async-support)
+        ;; (ob-tmate :location "/usr/local/share/emacs/site-lisp/ob-tmate" :toggle org-enable-tmate-support)
         ;; use a for of ox-gfm to fix index generation
         (ox-gfm :location (recipe :fetcher github :repo "syl20bnr/ox-gfm")
                 :toggle org-enable-github-support)

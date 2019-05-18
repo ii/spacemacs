@@ -587,8 +587,8 @@ before copying the file if the destination already exists."
                      (format "%s already exists. Do you want to overwrite it ? "
                              dotspacemacs-filepath)) t)))
     (when copy?
-      (copy-file (concat dotspacemacs-template-directory
-                         ".spacemacs.template") dotspacemacs-filepath t)
+      (copy-file (expand-file-name (concat spacemacs-start-directory
+                         "../.spacemacs.template")) dotspacemacs-filepath t)
       (message "%s has been installed." dotspacemacs-filepath))))
 
 (defun dotspacemacs//ido-completing-read (prompt candidates)
