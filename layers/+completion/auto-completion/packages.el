@@ -247,6 +247,7 @@
                   (when (file-accessible-directory-p snippet-dir)
                     snippet-dir)))))
         (setq yas-snippet-dirs nil)
+        (yasnippet-snippets-initialize)
         ;; ~/.emacs.d/layers/auto-completion/snippets
         (add-to-list 'yas-snippet-dirs spacemacs-layer-snippets-dir)
         ;; ~/.emacs.d/private/snippets
