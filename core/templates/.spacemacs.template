@@ -33,27 +33,64 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(clojure
+     rust
+     typescript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
-     ;; better-defaults
+     (auto-completion :variables
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-help-tooltip t)
+     better-defaults
      emacs-lisp
-     ;; git
+     git
      helm
-     ;; markdown
+     markdown
      multiple-cursors
-     ;; org
+     neotree
+     (org :variables
+          org-enable-github-support t
+          org-enable-bootstrap-support t
+          org-enable-reveal-js-support t
+          org-enable-hugo-support t
+          org-enable-org-journal-support t
+          org-projectile-file "TODO.org"
+          org-journal-dir "~/org/journal/"
+          org-journal-file-format "%Y-%m-%d"
+          org-journal-date-prefix "#+TITLE: "
+          org-journal-date-format "%A, %B %d %Y"
+          org-journal-time-prefix "* "
+          org-journal-time-format "")
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
+     syntax-checking
+     docker
+     (go :variables
+         go-tab-width 4
+         go-use-gometalinter t)
+     html
+     javascript
+     lua
+     nginx
+     pandoc
+     python
+     ruby
+     shell-scripts
+     terraform
      treemacs
-     ;; version-control
+     typography
+     themes-megapack
+     yaml
+     ;; #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+     ;; (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
+     ;;async-shell
+     version-control
      )
 
    ;; List of additional packages that will be installed without being
@@ -63,9 +100,62 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      ;; ob-async version in elpa
+                                      ;; is too old, get master
+                                      ;; ob-async,, but async is fine
+                                      async
+                                      closql
+                                      command-log-mode
+                                      dash
+                                      demo-it
+                                      emacsql-sqlite
+                                      evil-vimish-fold
+                                      fancy-narrow
+                                      feature-mode
+                                      ghub
+                                      go-dlv
+                                      graphql
+                                      graphql-mode
+                                      groovy-mode
+                                      ;; jupyter
+                                      ;; coped these into org layer
+                                      (org :location "/usr/local/share/emacs/site-lisp/org-9.2.2")
+                                      (ob-tmate :location "/usr/local/share/emacs/site-lisp/ob-tmate")
+                                      (ob-async :location "/usr/local/share/emacs/site-lisp/ob-async")
+                                      ob-go
+                                      ob-tmux
+                                      org-tree-slide
+                                      s
+                                      scad-mode
+                                      slime
+                                      togetherly
+                                      vimish-fold
+                                      xclip
+                                      ;; for tmate and over ssh cut-and-paste
+                                      ;; https://gist.github.com/49eabc1978fe3d6dedb3ca5674a16ece.git
+                                      ;; sakura is waiting on vte
+                                      ;; https://bugs.launchpad.net/sakura/+bug/1769575
+                                      ;; I'm pretty sure the lib vte issue is stale
+                                      ;; https://bugzilla.gnome.org/show_bug.cgi?id=795774
+                                      ;; available in minitty since 2.6.1
+                                      ;; https://github.com/mintty/mintty/issues/258
+                                      ;; http://mintty.github.io/ (Default tty on Cygwin etc)
+                                      ;; I created a ticket to add support to vte
+                                      ;; https://gitlab.gnome.org/GNOME/vte/issues/125
+                                      ;; this would in turn enable support on many
+                                      ;; default linux/gnome terminals
+                                      ;; for now, you probably want to use xterm
+                                      (osc52e :location "/usr/local/share/emacs/site-lisp/osc52e")
+                                      ;; for jupyter
+                                      websocket
+                                      ;; simple-httpd
+                                      ;; emacs-websocket
+                                      ;; company-mode
+                                      ;; markdown-mode
+                                      )
 
-   ;; A list of packages that cannot be updated.
+   ;; A list of packages that cannot be updatedj.j
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
@@ -154,7 +244,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-editing-style 'vim
 
    ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -162,7 +252,7 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 11 ;; 'official
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -187,7 +277,9 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+                         spacemacs-light
+                         adwaita
+                         rebecca)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -196,7 +288,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 0.75)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -204,8 +296,21 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   ;; https://wiki.debian.org/Fonts#Font_lists
+   ;; https://github.com/hbin/top-programming-fonts
+   ;; "Source Code Pro"
+   ;; "Inconsolata"
+   ;; "terminus"
+   ;; "IBM 3270"
+   ;; "DejaVu Sans Mono" ;; Very nice
+   ;; "FiraCode"
+   ;; "Menlo"
+   ;; "Monaco"
+   ;; "SourceCodeVariable"
+   ;; -unknown-DejaVu Sans Mono-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1
+   ;; "mononoki"
+   dotspacemacs-default-font '("DejaVu Sans Mono"
+                               :size 30
                                :weight normal
                                :width normal)
 
@@ -347,7 +452,8 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   ;; dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -440,6 +546,47 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq quelpa-checkout-melpa-p nil)
+  ;; would probably be nicer to have these somewhere later
+  (let*
+      (
+       (site-lisp "/usr/local/share/emacs/site-lisp/")
+       (elpa-path (concat site-lisp "elpa/" (symbol-value 'emacs-version) "/develop/"))
+       )
+    ;; (add-to-list 'load-path (concat elpa-path "togetherly-20170426.616"))
+    ;; (load (concat elpa-path "togetherly-20170426.616/togetherly.el"))
+    ;; (add-to-list 'load-path (concat elpa-path "async-20190503.656"))
+    ;; (load (concat elpa-path "async-20190503.656/async.el"))
+    ;; (add-to-list 'load-path (concat elpa-path "dash-20190424.1804"))
+    ;; (load (concat elpa-path "dash-20190424.1804/dash.el"))
+    ;; (load (concat site-lisp "ob-tmate/ob-tmate.el"))
+    ;; (load (concat site-lisp "ob-async/ob-async.el"))
+    ;; (add-to-list 'load-path "~/.emacs.d/private/local/emacs-zmq/")
+    ;; (load (concat site-lisp "ob-async/ob-async.el"))
+    ;; (load (concat site-lisp "ob-async/ob-async.el"))
+    ;; (add-to-list 'load-path "~/.emacs.d/private/local/emacs-zmq/")
+    ;; (load "~/.emacs.d/private/local/ob-tmate.el/ob-tmate.el")
+    ;; (load "~/.emacs.d/private/local/ob-tmux.el/ob-tmux.el")
+    ;; (require 'togetherly)
+    )
+  ;; this needs to be defined early
+  (defun togetherly-client-quick-start (the-port)
+    (interactive)
+    (let* ((host "127.0.0.1")
+           (port the-port)
+           (name (setq togetherly--client-name (togetherly--read-display-name))))
+      (setq togetherly--client-process
+            (make-network-process
+             :name "togetherly" :host host :service port :noquery t
+             :buffer (get-buffer-create "*Togetherly*")
+             :sentinel 'togetherly--client-sentinel-function
+             :filter 'togetherly--client-filter-function))
+      (switch-to-buffer "*Togetherly*")
+      (setq togetherly--client-timer-object
+            (run-with-timer nil togetherly-cursor-sync-rate
+                            'togetherly--client-report-cursor-position))
+      (add-hook 'kill-buffer-query-functions 'togetherly--client-kill-buffer-query)
+      (togetherly--client-send `(login . ,name))))
   )
 
 (defun dotspacemacs/user-load ()
@@ -455,7 +602,108 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;;(global-set-key (kbd "C-a") 'beginning-of-line)
+  ;;(global-set-key (kbd "C-y") 'yank)
+  ;;(global-set-key (kbd "C-p") 'previous-line)
+  ;; activate debugging
+  (setq debug-on-error nil
+        debug-on-signal nil
+        debug-on-quit nil)
+  (defun ssh-find-agent ()
+    (interactive)
+    (setenv "SSH_AUTH_SOCK" (shell-command-to-string "\
+          . ~/.ssh/ssh-find-agent.sh ;\
+          ssh-find-agent | grep ssh- | tail -1 \
+          | tail -1 | awk '{print $2}' | awk -F= '{print $2}' \
+          | tr --delete '\n'"))
+    (message (getenv "SSH_AUTH_SOCK"))
+    )
+  ;; (add-to-list 'load-path "~/.emacs.d/private/local/emacs-zmq/")
+  ;; (add-to-list 'load-path "~/.emacs.d/private/local/emacs-jupyter/")
+  ;; (load "~/.emacs.d/private/local/emacs-jupyter/jupyter.el")
+
+  ;; Loading /home/hippie/.emacs.d/private/local/ob-async/ob-async.el (source)...
+  ;; (Spacemacs) Error in dotspacemacs/user-config: Symbol’s function definition is void: org-combine-plists
+  ;; (add-to-list 'load-path "~/.emacs.d/private/local/ob-async/")
+  ;; (load "~/.emacs.d/private/local/ob-async/ob-async.el")
+  ;; for updating tickets and PRs from emacs
+  ;;;;;; We load these pretty late, and we could probably find a way to
+  ;;;;;; have the loading cached
+  ;; Loading /home/hippie/.spacemacs...done
+  ;; Loading /home/hippie/.emacs.d/private/local/ob-tmate.el/ob-tmate.el (source)...done
+  ;; Loading /home/hippie/.emacs.d/elpa/26.2/develop/togetherly-20170426.616/togetherly.el (source)...done
+  ;; Spacemacs is ready.
+  ;; Loading /home/hippie/.emacs.d/private/local/forge/lisp/forge.el (source)...done
+  ;; Loading /home/hippie/.emacs.d/.cache/recentf...done
+
+  ;; (add-to-list 'load-path "~/.emacs.d/private/local/forge/lisp/")
+  ;; (load "~/.emacs.d/private/local/forge/lisp/forge.el")
+  ;; (add-to-list 'forge-alist '("gitlab.ii.coop" "gitlab.ii.coop/api/v4" "gitlab.ii.coop" forge-gitlab-repository))
+  ;; (require 'togetherly)
+  ;; (spacemacs/set-leader-keys "SPC" 'avy-goto-word-or-subword-1)
+  (spacemacs/declare-prefix "o" "o-prefix")
+  (spacemacs/set-leader-keys "ob" 'org-iswitchb)
+  (spacemacs/set-leader-keys "o#" 'org-agenda-list-stuck-projects)
+  (spacemacs/set-leader-keys "o/" 'org-occur-in-agenda-files)
+  (spacemacs/set-leader-keys "oa" 'org-agenda-list)
+  (spacemacs/set-leader-keys "oc" 'org-capture)
+  (spacemacs/set-leader-keys "ol" 'org-store-link)
+  (spacemacs/set-leader-keys "oe" 'org-store-agenda-views)
+  (spacemacs/set-leader-keys "om" 'org-tags-view)
+  (spacemacs/set-leader-keys "oo" 'org-agenda)
+  (spacemacs/set-leader-keys "oO" 'org-clock-out)
+  (spacemacs/set-leader-keys "op" 'org-projectile/capture)
+  (spacemacs/set-leader-keys "oP" 'org-projectile/goto-todos)
+  (spacemacs/set-leader-keys "or" 'org-reveal)
+  (spacemacs/set-leader-keys "os" 'org-search-view)
+  (spacemacs/set-leader-keys "ot" 'org-todo-list)
+  ;; (spacemacs/declare-prefix "oc" "oc-prefix")
+  ;; (spacemacs/set-leader-keys "ocv" 'org-copy-visible)
+  ;; (spacemacs/declare-prefix "ot" "ot-prefix")
+  ;; (spacemacs/set-leader-keys "oti" 'org-copy-visible)
+  (spacemacs/declare-prefix "oi" "oi-prefix")
+  (spacemacs/set-leader-keys "oil" 'org-insert-link)
+  (spacemacs/declare-prefix "mo" "major-o-prefix")
+  (spacemacs/declare-prefix-for-mode 'org-mode "o" "org-major-o-prefix")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "oc" 'org-capture)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ob" 'org-iswitchb-completing-read)
+  (global-set-key (kbd "C-=") 'text-scale-increase)
+  (global-set-key (kbd "C-+") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-0") 'text-scale-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+;; (defun dotspacemacs/emacs-custom-settings ()
+;;  "Emacs custom settings.
+;; This is an auto-generated function, do not modify its content directly, use
+;; Emacs customize menu instead.
+;; This function is called at the very end of Spacemacs initialization."
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  )
+;; )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (graphql-mode zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode xclip ws-butler writeroom-mode winum white-sand-theme which-key websocket web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme typo twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toml-mode togetherly toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon symbol-overlay sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slime slim-mode seti-theme seeing-is-believing scss-mode scad-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme restart-emacs rebecca-theme rbenv rake rainbow-delimiters railscasts-theme racer pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode password-generator paradox pandoc-mode ox-twbs ox-pandoc ox-hugo ox-gfm overseer orgit organic-green-theme org-tree-slide org-re-reveal org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-tmux ob-go noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme lush-theme lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme kaolin-themes json-navigator js2-refactor js-doc jbeans-theme jazz-theme ir-black-theme insert-shebang inkpot-theme indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme groovy-mode grandshell-theme gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc go-dlv gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md gandalf-theme fuzzy font-lock+ flycheck-rust flycheck-pos-tip flycheck-package flycheck-gometalinter flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator feature-mode farmhouse-theme fancy-narrow fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-vimish-fold evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump dracula-theme dotenv-mode doom-themes doom-modeline dockerfile-mode docker django-theme diminish diff-hl demo-it define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile company-web company-terraform company-tern company-statistics company-shell company-quickhelp company-lua company-go company-anaconda command-log-mode column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme closql clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode cargo busybee-theme bundler bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil)))))
+)
